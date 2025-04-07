@@ -18,8 +18,6 @@ export default async function handler(req, res) {
     }
 
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL_COMMENTS;
-    console.log("Webhook URL:", process.env.DISCORD_WEBHOOK_URL_COMMENTS);
-
 
     const payload = {
         content: `——————————\n💬 **New Comment for Projekt City!**\n\n📝 **Message/Comment:** ${commentText}\n👤 **Name of user:** ${name}\n📧 **Email of user:** ${email || 'Not provided'}`
