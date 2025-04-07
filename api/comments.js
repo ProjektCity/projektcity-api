@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
 
     const payload = {
-        content: `💬 **New Comment!**\n\n📝 **Message of user:** ${commentText}\n👤 **Name of user:** ${name}\n📧 **Email of user:** ${email || 'Not provided'}`
+        content: `——————————\n💬 **New Comment for Projekt City!**\n\n📝 **Message/Comment:** ${commentText}\n👤 **Name of user:** ${name}\n📧 **Email of user:** ${email || 'Not provided'}`
     };
 
     try {

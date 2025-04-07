@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
 
     const payload = {
-        content: `📢 **New notification!**\n\n📝 **Message of user:** ${complaintText}\n📧 **Email of user:** ${email}`
+        content: `——————————\n📢 **New complaint for Projekt City!**\n\n📝 **Message of user:** ${complaintText}\n📧 **Email of user:** ${email}`
     };
 
     try {
