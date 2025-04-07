@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-    // ✅ CORS-Header setzen
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -8,7 +7,6 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    // ✅ Nur POST erlauben
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -19,10 +17,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Missing fields' });
     }
 
-    const webhookUrl = process.env.DISCORD_WEBHOOK_URL_COMMENTS;
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL_COMMENT;
+
+    if (!webhookUrl) {
+        console.error('Missing Webhook URL');
+        return res.status(500).json({ error: 'Server configuration error' });
+    }
 
     const payload = {
-        content: `💬 **New Comment!**\n\n📝 **Message of user:** ${commentText}\n👤 **Name of user:** ${name}\n📧 **Email of user:** ${email || 'Not provided'}`
+        content: `💬 **New Comment**\n\n📝 **Comment:** ${commentText}\n👤 **Name:** ${name}\n📧 **Email:** ${email || 'Not provided'}`
     };
 
     try {
@@ -32,13 +35,15 @@ export default async function handler(req, res) {
             body: JSON.stringify(payload),
         });
 
-        if (response.ok) {
-            return res.status(200).json({ success: true });
-        } else {
-            return res.status(500).json({ error: 'Webhook error' });
+        if (!response.ok) {
+            const text = await response.text();
+            console.error('Webhook error:', text);
+            return res.status(500).json({ error: 'Failed to send webhook' });
         }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Unexpected error' });
+
+        return res.status(200).json({ success: true });
+    } catch (error) {
+        console.error('Unexpected error:', error);
+        return res.status(500).json({ error: 'Unexpected server error' });
     }
 }
