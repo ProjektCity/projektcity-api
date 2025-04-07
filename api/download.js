@@ -20,7 +20,6 @@ export default async function handler(req, res) {
         const downloads = data.data?.downloadCount ?? null;
     
         res.status(200).json({
-            projectId,
             downloads
         });
   
