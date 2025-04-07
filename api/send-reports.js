@@ -21,7 +21,6 @@ export default async function handler(req, res) {
     }
 
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL_REPORT;
-    console.log("Webhook URL:", process.env.DISCORD_WEBHOOK_URL_COMMENTS);
 
 
     const payload = {
